@@ -14,12 +14,11 @@
         <form method="POST" action="{{ route('instructor.profile.update') }}" class="space-y-4">
             @csrf
             @method('PATCH')
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <x-input-label for="phone" value="Telefoonnummer" />
                     <x-text-input id="phone" name="phone" class="block mt-1 w-full"
-                        value="{{ old('phone', $user->instructorProfile->phone) }}" />
+                        value="{{ old('phone', $user->instructorProfile->telefoonnummer) }}" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
 

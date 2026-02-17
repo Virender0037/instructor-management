@@ -52,6 +52,9 @@ class InstructorController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:150'],
             'email' => ['required', 'email', 'max:191', Rule::unique('users', 'email')],
+            'telefoonnummer' => ['nullable', 'string', 'max:30'],
+            'wagennummer'    => ['nullable', 'string', 'max:30'],
+            'auto'           => ['nullable', 'in:Volkswagen,Mercedes,Audi'],
             'status' => ['required', 'boolean'],
         ]);
 
@@ -60,12 +63,20 @@ class InstructorController extends Controller
             'email' => $data['email'],
             'password' => Hash::make(str()->random(20)),
             'role' => 'instructor',
-            'status' => $data['status'],
+            'status' => (int) $data['status'],
             'created_by' => $request->user()->id,
             'email_verified_at' => null,
         ]);
 
-        $instructor->instructorProfile()->create();
+        $instructor->instructorProfile()->updateOrCreate(
+        ['user_id' => $instructor->id],
+        [
+            'telefoonnummer' => $data['telefoonnummer'],
+            'wagennummer'    => $data['wagennummer'],
+            'auto'           => $data['auto'],
+        ]
+        );
+        
         audit('instructor.created', $instructor, [
             'email' => $instructor->email,
         ]);
@@ -155,6 +166,9 @@ class InstructorController extends Controller
     if ($user->role !== 'instructor') abort(404);
 
     $data = $request->validate([
+        'telefoonnummer' => ['nullable', 'string', 'max:30'],
+        'wagennummer'    => ['nullable', 'string', 'max:30'],
+        'auto'           => ['nullable', 'in:Volkswagen,Mercedes,Audi'],
         'phone' => ['nullable', 'string', 'max:30'],
         'address' => ['nullable', 'string', 'max:500'],
         'bio' => ['nullable', 'string', 'max:2000'],
@@ -214,6 +228,18 @@ class InstructorController extends Controller
     );
 }
 
+public function destroy(User $user)
+{
+    if ($user->role !== 'instructor') {
+        abort(404);
+    }
+    $user->delete();
 
+    audit('instructor.soft_deleted', $user, [
+        'email' => $user->email,
+    ]);
+
+    return back()->with('status', 'Instructeur is verwijderd.');
+}
 
 }

@@ -8,6 +8,9 @@ class InstructorProfile extends Model
 {
     protected $fillable = [
         'user_id',
+        'telefoonnummer',
+        'wagennummer',
+        'auto',
         'phone',
         'address',
         'bio',

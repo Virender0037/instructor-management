@@ -118,6 +118,20 @@
                 <td class="px-4 py-3">
                     <div class="flex justify-end gap-2">
                         {{-- placeholder buttons for next steps --}}
+
+                        <form method="POST"
+                            action="{{ route('superadmin.instructors.destroy', $inst->id) }}"
+                            onsubmit="return confirm('Weet u zeker dat u deze instructeur wilt verwijderen?');"
+                            class="inline">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="px-3 py-1 rounded bg-red-50 text-red-700 hover:bg-red-100">
+                                Verwijderen
+                            </button>
+                        </form>
+
                         <a href="{{ route('superadmin.messages.chat', $inst->id) }}"
                            class="px-3 py-1 rounded bg-indigo-50 text-indigo-700 hover:bg-indigo-100">
                             Bericht

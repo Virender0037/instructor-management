@@ -112,6 +112,8 @@ Route::prefix('superadmin')
         Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit.index');
         Route::delete('/documents/{document}', [SuperadminDocumentController::class, 'destroy'])
         ->name('documents.destroy');
+        Route::delete('/instructors/{user}', [InstructorController::class, 'destroy'])
+        ->name('instructors.destroy');
     });
 
 // =========================

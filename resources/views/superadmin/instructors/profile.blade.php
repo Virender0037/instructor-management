@@ -27,10 +27,10 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <x-input-label for="phone" value="Telefoon" />
-                    <x-text-input id="phone" name="phone" class="block mt-1 w-full"
-                        value="{{ old('phone', $user->instructorProfile->phone) }}" />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+                    <x-input-label for="telefoonnummer" value="Telefoonnummer" />
+                    <x-text-input id="telefoonnummer" name="telefoonnummer" class="block mt-1 w-full"
+                        value="{{ old('telefoonnummer', $user->instructorProfile->telefoonnummer) }}" />
+                    <x-input-error :messages="$errors->get('telefoonnummer')" class="mt-2" />
                 </div>
 
                 <div>
@@ -38,6 +38,27 @@
                     <x-text-input id="dob" name="dob" type="date" class="block mt-1 w-full"
                         value="{{ old('dob', $user->instructorProfile->dob) }}" />
                     <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="wagennummer" value="Wagennummer" />
+                    <x-text-input id="wagennummer" name="wagennummer" type="text"
+                                class="block mt-1 w-full"
+                                value="{{ old('wagennummer', $user->instructorProfile->wagennummer ?? '') }}" />
+                    <x-input-error :messages="$errors->get('wagennummer')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="auto" value="Auto" />
+                    <select id="auto" name="auto" class="block mt-1 w-full">
+                        <option value="">-- Select --</option>
+                        @foreach(['Volkswagen','Mercedes','Audi'] as $brand)
+                            <option value="{{ $brand }}" @selected(old('auto', $user->instructorProfile->auto ?? '') === $brand)>
+                                {{ $brand }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('auto')" class="mt-2" />
                 </div>
 
                 <div>
